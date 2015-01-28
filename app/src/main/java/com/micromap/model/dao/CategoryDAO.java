@@ -21,7 +21,7 @@ import java.util.Map;
 
 
 @SuppressLint("UseSparseArrays")
-public class CategoryDAO extends TBManager {
+public class CategoryDao extends TBManager {
     public static final String TABLE_NAME = "category";
     public static final String FILE_NAME = "Category.xml";
     public static final String NAME = "name";
@@ -29,7 +29,7 @@ public class CategoryDAO extends TBManager {
     public static final String MARK = "mark";
 
     private SQLiteDatabase database;
-    public CategoryDAO(SQLiteDatabase database){
+    public CategoryDao(SQLiteDatabase database){
         super(database);
         this.database = database;
     }
@@ -83,6 +83,7 @@ public class CategoryDAO extends TBManager {
     
     /**
      * 根据类型得到部门的分类的图标
+     *
      * @param  type type的类型
      * @return id   分类图标的ID
      */
@@ -112,9 +113,11 @@ public class CategoryDAO extends TBManager {
         }
         return bitmap_id;
     }
-    
+
+
     /**
      * 根据XML数据更新表
+     *
      * @param in    XML文件输入流
      */
     public void parserXml(InputStream in) {

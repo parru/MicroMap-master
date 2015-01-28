@@ -6,10 +6,11 @@ import com.micromap.model.Position;
 import java.io.Serializable;
 
 
-/*
- * @author Pingfu
+/**
  * 建筑的抽象数据类型，包括建筑的基本信息、建筑的位置
  * 用来将建筑在地图上显示
+ *
+ * @author Pingfu
  */
 public class BuildingMark implements Serializable{
     private Building building;

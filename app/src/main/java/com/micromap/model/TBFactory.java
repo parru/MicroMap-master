@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.micromap.model.dao.BuildingDao;
 import com.micromap.model.dao.BuildingPositionDao;
-import com.micromap.model.dao.CategoryDAO;
+import com.micromap.model.dao.CategoryDao;
 import com.micromap.model.dao.FacilityDao;
 import com.micromap.model.dao.PositionDao;
 import com.micromap.model.dao.RoadDao;
@@ -37,7 +37,7 @@ public class TBFactory {
     		
     	}else if(tableName.equalsIgnoreCase("category")){
     		//分类表
-    		tbManager = new CategoryDAO(database);
+    		tbManager = new CategoryDao(database);
     		
     	}else if(tableName.equalsIgnoreCase("position")){
     		//坐标点表

@@ -153,8 +153,8 @@ public class PathFindingResultActivity extends Activity {
     				toast.show();
     				return;
             	}
-            	Building building1 = beginCheckedItemMark.getBuildingMark().getBuilding();
-            	Building building2 = endCheckedItemMark.getBuildingMark().getBuilding();
+            	Building building1 = beginCheckedItemMark.getBuilding();
+            	Building building2 = endCheckedItemMark.getBuilding();
             	Position beginPosition = SearchBuildingUtil.getNearestPositionInRoad(
             			building1, database);
             	Position endPosition = SearchBuildingUtil.getNearestPositionInRoad(

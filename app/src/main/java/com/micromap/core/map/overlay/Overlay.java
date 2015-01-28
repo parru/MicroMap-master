@@ -1,5 +1,6 @@
 
 package com.micromap.core.map.overlay;
+import android.content.Context;
 import android.graphics.Canvas;
 
 import com.micromap.core.map.MapView;
@@ -48,15 +49,18 @@ public abstract class Overlay{
     	return this.isShowing;
     }
     
-    /*
+    /**
      * draw the items in the overlayer
      * @author Pingfu
      */
     public abstract void draw(Canvas canvas,int deepZoom);
     
-    /*
+    /**
      * 添加点击事件
-     * @param event 当前的点击事件
      */
     public abstract void onClick(int x,int y);
+
+    protected Context getContext(){
+        return mapView.getContext();
+    }
 }

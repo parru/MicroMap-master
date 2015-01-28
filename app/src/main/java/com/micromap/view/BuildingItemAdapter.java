@@ -131,15 +131,14 @@ public class BuildingItemAdapter extends BaseAdapter {
                 Log.i("ItemMark","#################");
                 intent = new Intent(mContext, PathFindingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("beginPosition", mark.getBuildingMark().
-                        getBuilding().getName());
+                intent.putExtra("beginPosition", mark.getName());
                 mContext.startActivity(intent);
                 
             }else if(vid == holder.goToHere.getId()){
                 //转到道路查询界面，到这儿去
                 intent = new Intent(mContext, PathFindingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("endPosition", mark.getBuildingMark().getBuilding().getName());
+                intent.putExtra("endPosition", mark.getName());
                 mContext.startActivity(intent);
                 
             }else{

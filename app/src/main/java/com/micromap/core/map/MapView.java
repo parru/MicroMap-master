@@ -163,6 +163,7 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
+        Log.e("MapView -- >", "ddddd");
         int mTileSize = (int) (MapConfig.TILE_SIZE * mScale);
         int m = screenHeight / MapConfig.TILE_SIZE + 2;
         int n = screenWidth / MapConfig.TILE_SIZE + 2;
@@ -177,12 +178,22 @@ public class MapView extends View {
 
         int tile_num = 0;
 
+        Bitmap baseBitmap = tileCache.getMapTile(0, mScale);
+        for(int i = 0; i <= m; i++){
+            drawMapTile(canvas, baseBitmap, mPaint, 0, i*mTileSize, mTileSize);
+        }
+        for(int i = 0; i <= n; i++){
+            drawMapTile(canvas, baseBitmap, mPaint, i*mTileSize, 0, mTileSize);
+        }
+
+
         //拼接地图
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 int screenX = canvasX + (j * mTileSize);
                 int screenY = canvasY + (i * mTileSize);
-                if (screenX - mapOffsetX > mapWidth || screenY - mapOffsetY > mapHeight) {
+                if (screenX - mapOffsetX > mapWidth || screenY - mapOffsetY > mapHeight
+                        || screenX - mapOffsetX <= 0 || screenY - mapOffsetY <= 0) {
                     tile_num = 0;
                 } else {
                     tile_num = (i + (-mapOffsetY) / mTileSize) * num + (j + 1 + (-mapOffsetX) / mTileSize);
@@ -262,14 +273,14 @@ public class MapView extends View {
 
         if (mapOffsetX > screenWidth / 2) {
             mapOffsetX = screenWidth / 2;
-        } else if (mapOffsetX < -mapWidth) {
-            mapOffsetX = -mapWidth;
+        } else if (mapOffsetX < mapWidth/2 - mapWidth) {
+            mapOffsetX = mapWidth/2 - mapWidth;
         }
 
         if (mapOffsetY > screenHeight / 2) {
             mapOffsetY = screenHeight / 2;
-        } else if (mapOffsetY < -mapHeight) {
-            mapOffsetY = -mapHeight;
+        } else if (mapOffsetY < mapHeight/2 - mapHeight) {
+            mapOffsetY = mapHeight/2 - mapHeight;
         }
         mPlaceAnimation.moveAnim(dx, dy);
         postInvalidate();

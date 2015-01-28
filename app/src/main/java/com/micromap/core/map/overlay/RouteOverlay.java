@@ -77,7 +77,7 @@ public class RouteOverlay extends Overlay {
     public void onClick(int x, int y) {
         // TODO Auto-generated method stub
         for (int i = 0; i < items.size(); i++) {
-            items.get(i).onClick(x, y, getMapView(), null);
+//            items.get(i).onClick(x, y, getMapView(), null);
         }
     }
 

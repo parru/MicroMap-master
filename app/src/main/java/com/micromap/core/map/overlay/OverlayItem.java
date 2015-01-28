@@ -12,6 +12,8 @@ import com.micromap.core.map.GeoPoint;
 import com.micromap.core.map.MapView;
 import com.micromap.core.map.model.ItemMark;
 
+import java.io.Serializable;
+
 /**
  * ItemizedOverlayOverlay图层上的最小数据单元
  * 建筑的标记、部门的标记、道路上的标记均由此生成
@@ -24,6 +26,7 @@ public class OverlayItem {
     private String title;         //Item的名称
     private Bitmap marker;        //Item的标志（建筑标志30*30，道路标志10*10）
     private int item_type;        //Item的类型
+    private int markSize;
     private Context context;
 
     public boolean isClickable = true;
@@ -34,6 +37,9 @@ public class OverlayItem {
         this.title = title;
         this.item_type = item_type;
         this.context = context;
+
+        setDefaultMarker();
+        getMarkSize(0);
     }
 
     public GeoPoint getPoint() {
@@ -68,12 +74,27 @@ public class OverlayItem {
         this.item_type = item_type;
     }
 
+    public String getTitle(){
+        return title;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    /**
+     * 设置
+     */
+    public void setDefaultMarker(){
+        setMarkerByNumber(-1);
+    }
+
     /**
      * 根据Mark的编号设置Mark
      *
      * @param number
      */
-    public Bitmap getMarkerByNumber(int number) {
+    public void setMarkerByNumber(int number) {
         Bitmap bitmap = null;
         switch (number) {
             case 0:
@@ -98,10 +119,11 @@ public class OverlayItem {
                 break;
             default:
                 bitmap = BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.icon_mark);
+                        R.drawable.icon_marka);
         }
-        this.marker = bitmap;
-        return bitmap;
+
+        marker = bitmap;
+        getMarkSize(number);
     }
 
     /**
@@ -110,7 +132,7 @@ public class OverlayItem {
      * @param direction 道路的转向
      * @return bitmap    道路转向的标志
      */
-    public Bitmap getMarkByDirection(int direction) {
+    public void setMarkByDirection(int direction) {
         Bitmap bitmap = null;
         switch (direction) {
             case OverlayItemConfig.TURN_START:
@@ -146,21 +168,28 @@ public class OverlayItem {
             default:
                 break;
         }
-        this.marker = bitmap;
-        return bitmap;
+
+        marker = bitmap;
+    }
+
+    public int getMarkSize(int i){
+        int size = i < 3 ? 40 : 30;
+//        markHeight = markWidth = size;
+
+        return size;
     }
 
     /**
      * 判断当前Item是否被点中
      *
-     * @param x
-     * @param y
+     * @param x  点击点的X轴坐标
+     * @param y  点击点的Y轴坐标
      * @param mapView 一个mapView对象
-     * @param itemMark
      */
-    public void onClick(int x, int y, MapView mapView, ItemMark itemMark) {
+    public void onClick(int x, int y, MapView mapView) {
         //如果当前的Item是可点击的
         if (isClickable) {
+
             int mapWidth = mapView.getMapWidth();
             int mapHeight = mapView.getMapHeight();
             int mapOffsetX = mapView.getMapOffsetX();
@@ -170,19 +199,13 @@ public class OverlayItem {
             int mapX = point.getMapX(mapWidth) + mapOffsetX;
             //当前Item在屏幕上的Y轴坐标
             int mapY = point.getMapY(mapHeight) + mapOffsetY;
-            Log.i("longitude", Double.toString(point.getPosition().getLongitude()));
-            Log.i("Item-->", Integer.toString(mapX) + " " + Integer.toString(mapWidth));
 
-			/* 图像的画布大小是30*30 * 所以要计算是否点击了当前的Item对象 */
-            if (Math.abs((x - mapX)) < 40 && Math.abs(y - (mapY + 30)) < 40) {
+			/* 计算是否点击了当前的Item对象 */
+            if (isClicked(x, y, mapOffsetX, mapOffsetY)) {
+                ItemPopupWindow popupWindow = new ItemPopupWindow(context, this, title);
                 if (item_type == OverlayItemConfig.BUILDING_ITEM_TYPE) {
-                    ItemPopupWindow popupWindow = new ItemPopupWindow(context,
-                            itemMark, title);
-
                     popupWindow.showItemPopupWindow(mapView, mapX, mapY);
                 } else {
-                    ItemPopupWindow popupWindow = new ItemPopupWindow(context,
-                            itemMark, title);
                     popupWindow.showNavPopupWindow(mapView, mapX, mapY);
                 }
             }
@@ -191,14 +214,22 @@ public class OverlayItem {
 
     /**
      * 显示提示信息
-     *
-     * @param context
      */
-    public void showToastInfo(Context context) {
-        Log.i("route-->", "LSDSFSDFSFD");
+    public void showToastInfo() {
         Toast toast = Toast.makeText(context.getApplicationContext(),
                 description, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    /**
+     * 判断当前的item是否被点中
+     *
+     * @param x 点击点的X轴坐标
+     * @param y 点击点的Y轴坐标
+     */
+    private boolean isClicked(int x, int y, int mapX, int mapY){
+
+        return Math.abs((x - mapX)) < markSize && Math.abs(y - (mapY + 30)) < markSize;
     }
 }

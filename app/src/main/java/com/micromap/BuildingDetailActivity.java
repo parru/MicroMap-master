@@ -40,7 +40,7 @@ public class BuildingDetailActivity extends Activity implements OnClickListener 
             itemMark = (ItemMark)intent.getExtras().get("itemMark");
             if(itemMark != null){
                 titleText.setText(itemMark.getName());
-                detailText.setText(itemMark.getBuildingMark().getBuilding().getDescription());
+                detailText.setText(itemMark.getDescription());
             }
         }
     }

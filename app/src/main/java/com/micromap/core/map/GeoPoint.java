@@ -1,5 +1,7 @@
 package com.micromap.core.map;
 
+import android.util.Log;
+
 import com.micromap.model.Position;
 
 
@@ -80,13 +82,17 @@ public class GeoPoint {
     	return point;
     }
     
-    /*
+    /**
      * 将数据库中的Position对象转化为比较实用的GeoPoint对象
-     * @param Position 数据库中的Position对象
+     * @param position 数据库中的Position对象
      * @return point 新生成的GeoPoint对象
      */
     public static GeoPoint getGeoPoint(Position position){
-    	String name = position.getName();
+    	if(position == null){
+            Log.e("Geopoint -->", "null");
+            return null;
+        }
+        String name = position.getName();
     	double longitude = position.getLongitude();
     	double latitude = position.getLatitude();
     	GeoPoint point = new GeoPoint(name, longitude, latitude);

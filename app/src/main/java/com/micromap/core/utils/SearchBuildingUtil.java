@@ -12,20 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/*
+/**
  * 建筑查询的API
  * @author Pingfu
  */
 public class SearchBuildingUtil {	
 	
-	/*
+	/**
 	 * 根据名称查找建筑
 	 * @param database 数据库
 	 * @param name 要查找的建筑名称
 	 * @return buildingMarks 所有和名称name类似的建筑列表
 	 */
-    public static List<BuildingMark> getBuildingMarkByName(String name,
-    		SQLiteDatabase database){
+    public static List<BuildingMark> getBuildingMarkByName(String name, SQLiteDatabase database){
     	List<BuildingMark> buildingMarks = new ArrayList<BuildingMark>();
     	buildingMarks = new BuildingMarkDao(database).getBuildingMarkByName(name);
     	return buildingMarks;
@@ -49,7 +48,7 @@ public class SearchBuildingUtil {
      * @param database      Sqlite数据库
      * @return buildingMark 对应的BuildingMark对象
      */
-    public static BuildingMark getBuildingMarkById(int id,SQLiteDatabase database){
+    public static BuildingMark getBuildingMarkById(int id, SQLiteDatabase database){
     	BuildingMark buildingMark = null;
     	BuildingMarkDao buildingMarkDao = new BuildingMarkDao(database);
     	buildingMark = buildingMarkDao.getBuildingMarkById(id);
@@ -62,8 +61,7 @@ public class SearchBuildingUtil {
      * @param database      Sqlite数据库
      * @return buildingMark 对应的BuildingMark对象
      */
-    public static BuildingMark getBuildingMarkByNum(int num,
-    		SQLiteDatabase database){
+    public static BuildingMark getBuildingMarkByNum(int num, SQLiteDatabase database){
     	BuildingMark buildingMark = null;
     	BuildingMarkDao buildingMarkDao = new BuildingMarkDao(database);
     	buildingMark = buildingMarkDao.getBuildingMarkByNumber(num);
@@ -76,8 +74,7 @@ public class SearchBuildingUtil {
      * @param database   Sqlite数据库
      * @return Position  距离建筑building最近的道路上的点
      */
-    public static Position getNearestPositionInRoad(Building building,
-    		SQLiteDatabase database){
+    public static Position getNearestPositionInRoad(Building building, SQLiteDatabase database){
     	int b_id = building.getId();
     	BuildingPositionDao buildingPositionDao = new BuildingPositionDao(database);
     	Position position = buildingPositionDao.getBuidingPosition(b_id, 0);

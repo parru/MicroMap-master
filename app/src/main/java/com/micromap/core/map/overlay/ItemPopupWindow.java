@@ -20,14 +20,14 @@ import com.micromap.R;
 import com.micromap.core.map.model.ItemMark;
 
 public class ItemPopupWindow {
-    private ItemMark itemMark;
+    private OverlayItem item;
     private int height;
     private int width;
     private String text;
     private Context context;
-    public ItemPopupWindow(Context context,ItemMark itemMark, String text){
+    public ItemPopupWindow(Context context, OverlayItem item, String text){
         this.context = context;
-        this.itemMark = itemMark;
+        this.item = item;
         this.text = text;
         Paint paint = new Paint();
         paint.setTextSize(14);
@@ -37,6 +37,7 @@ public class ItemPopupWindow {
     
     /**
      * 绘制popup层，位置参照与父View的左上角
+     *
      * @param parent    popup对应的父View
      * @param x         popup相对于父View的X轴坐标
      * @param y         popup相对于父View的Y轴坐标
@@ -58,7 +59,7 @@ public class ItemPopupWindow {
         ImageView imageView2 = (ImageView)view.findViewById(R.id.building_pop_path);
         imageView2.setOnClickListener(listener);
         
-      //必须设置背景
+        //必须设置背景
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         //设置焦点
         popupWindow.setFocusable(true);
@@ -70,7 +71,8 @@ public class ItemPopupWindow {
     }
     
     /**
-     * 
+     * 点击道路上的点显示的提示
+     *
      * @param parent
      * @param x
      * @param y
@@ -102,11 +104,12 @@ public class ItemPopupWindow {
         public void onClick(View v) {
             // TODO Auto-generated method stub
             if(v.getId() == R.id.building_pop_path){
-                intent = new Intent(context,PathFindingActivity.class);
+                intent = new Intent(context, PathFindingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if(itemMark != null){
+                if(item != null){
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("itemMark", itemMark);
+                    bundle.putString("", item.getTitle());
+                    //bundle.putSerializable("itemMark", item);
                     intent.putExtras(bundle);
                 }
                 context.startActivity(intent);
@@ -114,10 +117,10 @@ public class ItemPopupWindow {
             }else{
                 intent = new Intent(context,BuildingDetailActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                if(itemMark != null){
+                if(item != null){
                     Bundle bundle = new Bundle();
-                    intent.putExtra("beginPosition", itemMark.getName());
-                    bundle.putSerializable("itemMark", itemMark);
+                    intent.putExtra("beginPosition", item.getTitle());
+                    //bundle.putSerializable("itemMark", item);
                     intent.putExtras(bundle);
                 }
                 context.startActivity(intent);

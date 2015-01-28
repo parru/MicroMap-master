@@ -8,7 +8,7 @@ import com.micromap.model.dao.PositionDao;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
  * 管理所有到终点的道路
  * @author Pingfu
  */
@@ -26,7 +26,7 @@ public class RouteToEndPosition {
     	path = dijkstra.getPath();
     }
     
-    /*
+    /**
      * 得到起始点beginPosition到终点的最短路径
      * @param beginPosition 起始点
      * @param database      系统的Sqlite数据库
