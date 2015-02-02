@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/*
+/**
  * 全局类型，单例模式实现
  * 记录地图的状态、缩放等级、坐标等基本信息
  * @author Pingfu
  */
 public class MicroMapApplication extends Application {
-    /*
+    /**
      * MapView的状态
      * 分为初始状态、工作状态和结束状态
      */
@@ -30,24 +30,21 @@ public class MicroMapApplication extends Application {
         /**
          * 地图切片大小 *
          */
-        public static final int TILE_SIZE = 75;
-
-        public static final int MAX_MAP_SIZE = 3000;
-        public static final int MIN_MAP_SIZE = 750;
+        public static final int TILE_SIZE = 50;
 
         /**
          * 第一缩放等级的MapView的长和宽
          */
-        public static final int INIT_MAP_HEIGHT = 750;
-        public static final int INIT_MAP_WIDTH = 750;
+        public static final int INIT_MAP_HEIGHT = 500;
+        public static final int INIT_MAP_WIDTH = 1000;
 
-        /*
+        /**
          * MapView的缩放等级限制
          */
         public static final int MIN_DEEP_ZOOM = 1;           //做小缩放等级
         public static final int MAX_DEEP_ZOOM = 3;           //最大缩放等级
 
-        /*
+        /**
          * 地图的默认图层的z-index值
          */
         public static final int ITEM_OVERLAY_Z_INDEX = 10;

@@ -141,7 +141,7 @@ public class MapView extends View {
         DisplayMetrics dm =getResources().getDisplayMetrics();
         screenHeight = dm.heightPixels;
         screenWidth = dm.widthPixels;
-        if (screenHeight < MapConfig.MIN_MAP_SIZE) {
+        if (screenHeight < MapConfig.INIT_MAP_HEIGHT) {
             deepZoom = MapConfig.MIN_DEEP_ZOOM;
         } else {
             deepZoom = MapConfig.MIN_DEEP_ZOOM + 1;
@@ -168,7 +168,7 @@ public class MapView extends View {
         int m = screenHeight / MapConfig.TILE_SIZE + 2;
         int n = screenWidth / MapConfig.TILE_SIZE + 2;
         int num = mapWidth / mTileSize;
-        int MAXNUM = num * num;
+        int MAXNUM = m * n;
 		
 		/*
 		 * 画布上第一个切片的坐标
@@ -185,7 +185,6 @@ public class MapView extends View {
         for(int i = 0; i <= n; i++){
             drawMapTile(canvas, baseBitmap, mPaint, i*mTileSize, 0, mTileSize);
         }
-
 
         //拼接地图
         for (int i = 0; i < m; i++) {
@@ -304,11 +303,11 @@ public class MapView extends View {
      */
     public void scaleMap(float factor) {
         mapHeight = (int) (mapHeight * factor);
-        if (mapHeight < MapConfig.MIN_MAP_SIZE) {
-            mapHeight = MapConfig.MIN_MAP_SIZE;
+        if (mapHeight < MapConfig.INIT_MAP_HEIGHT) {
+            mapHeight = MapConfig.INIT_MAP_HEIGHT;
         }
-        if (mapHeight > MapConfig.MAX_MAP_SIZE) {
-            mapHeight = MapConfig.MAX_MAP_SIZE;
+        if (mapHeight > MapConfig.INIT_MAP_HEIGHT * 3) {
+            mapHeight = MapConfig.INIT_MAP_HEIGHT * 3;
         }
         mapWidth = mapHeight;
 
