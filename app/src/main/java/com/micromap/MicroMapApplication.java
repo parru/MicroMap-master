@@ -30,7 +30,7 @@ public class MicroMapApplication extends Application {
         /**
          * 地图切片大小 *
          */
-        public static final int TILE_SIZE = 50;
+        public static final int TILE_SIZE = 100;
 
         /**
          * 第一缩放等级的MapView的长和宽
@@ -51,35 +51,74 @@ public class MicroMapApplication extends Application {
         public static final int ROUTE_OVERLAY_Z_INDEX = 1;
 
         /**
-         * 得到当前缩放等级的地图实际大小
+         * 得到当前缩放等级的地图的宽
          *
          * @param deepZoom
          * @return
          */
-        public static int getMapSizeByDeepZoom(int deepZoom) {
+        public static int getMapWidthByDeepZoom(int deepZoom) {
             // TODO Auto-generated method stub
-            int size = (int) (750 * Math.pow(2, deepZoom - 1));
+            int size = (int) (INIT_MAP_WIDTH * Math.pow(2, deepZoom - 1));
             return size;
         }
 
+        /**
+         * 得到当前缩放等级的地图的高
+         *
+         * @param deepZoom
+         * @return
+         */
+        public static int getMapHeightByDeepZoom(int deepZoom){
+            int size = (int) (INIT_MAP_HEIGHT * Math.pow(2, deepZoom - 1));
+            return size;
+        }
+
+        /**
+         * 得到当前的缩放比
+         *
+         * @param mapHeight
+         * @param deepZoom
+         * @return
+         */
         public static float getMapScale(int mapHeight, int deepZoom) {
             float scale = 1f;
-            int size = getMapSizeByDeepZoom(deepZoom);
+            int size = getMapHeightByDeepZoom(deepZoom);
             scale = (float) ((float) mapHeight / (float) size);
+
             return scale;
         }
 
-        public static int getDeepZoomByMapSize(int mapSize) {
+        /**
+         * 得到当前缩放等级的切片最大编号
+         *
+         * @param deepZoom
+         * @return
+         */
+        public static int getMaxTileNum(int deepZoom){
+            int m = getMapHeight(deepZoom) / TILE_SIZE;
+            int n = getMapWidth(deepZoom) / TILE_SIZE;
+
+            return m * n;
+        }
+
+        /**
+         * 根据当前的高度获取缩放等级
+         *
+         * @param mapHeight
+         * @return
+         */
+        public static int getDeepZoomByMapHeight(int mapHeight) {
             int deepZoom = 1;
-            if (mapSize >= 750 && mapSize < 1500) {
+            if (mapHeight >= 500 && mapHeight < 1000) {
                 deepZoom = 1;
             }
-            if (mapSize >= 1500 && mapSize < 3000) {
+            if (mapHeight >= 1000 && mapHeight < 2000) {
                 deepZoom = 2;
             }
-            if (mapSize >= 3000) {
+            if (mapHeight >= 2000) {
                 deepZoom = 3;
             }
+
             return deepZoom;
         }
 
@@ -94,6 +133,7 @@ public class MicroMapApplication extends Application {
             if (deep_zoom >= MapConfig.MIN_DEEP_ZOOM && deep_zoom <= MapConfig.MAX_DEEP_ZOOM) {
                 height = (int) Math.pow(2, deep_zoom - 1) * INIT_MAP_HEIGHT;
             }
+
             return height;
         }
 
@@ -108,6 +148,7 @@ public class MicroMapApplication extends Application {
             if (deep_zoom >= MIN_DEEP_ZOOM && deep_zoom <= MAX_DEEP_ZOOM) {
                 width = (int) Math.pow(2, deep_zoom - 1) * INIT_MAP_WIDTH;
             }
+
             return width;
         }
     }

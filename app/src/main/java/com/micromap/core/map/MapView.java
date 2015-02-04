@@ -138,37 +138,42 @@ public class MapView extends View {
         this.context = context;
         mPaint = new Paint();
         /*得到手机屏幕的大小*/
-        DisplayMetrics dm =getResources().getDisplayMetrics();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         screenHeight = dm.heightPixels;
         screenWidth = dm.widthPixels;
+
         if (screenHeight < MapConfig.INIT_MAP_HEIGHT) {
             deepZoom = MapConfig.MIN_DEEP_ZOOM;
         } else {
             deepZoom = MapConfig.MIN_DEEP_ZOOM + 1;
         }
-        mapWidth = MapConfig.getMapSizeByDeepZoom(deepZoom);
-        mapHeight = mapWidth;
+
+        mapWidth = MapConfig.getMapWidthByDeepZoom(deepZoom);
+        mapHeight = MapConfig.getMapHeightByDeepZoom(deepZoom);
 
         mScale = 1.0f;
         tileCache = new DrawTileCache(context, deepZoom);
         mPlaceAnimation = new MyPlaceIconAnim(context, 50, 50, this);
         overlayMap = new HashMap<Integer, Overlay>();
 
-        setMapPosition((screenWidth - mapWidth) / 2,
-                (screenHeight - mapHeight) / 2);
+        setMapPosition((screenWidth - mapWidth) / 2, (screenHeight - mapHeight) / 2);
         gestureDetector = new GestureDetector(context, new ScrollListener());
         scaleGestureDetector = new ScaleGestureDetector(context, new ScaleListener());
+
+        Log.e("ScreenHeight -->", "" + screenHeight);
+        Log.e("MapHeight -- >", "" + mapHeight);
+        Log.e("MapWidth -- >", "" + mapWidth);
+        Log.e("DeepZoom -- >", "" + deepZoom);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         // TODO Auto-generated method stub
-        Log.e("MapView -- >", "ddddd");
         int mTileSize = (int) (MapConfig.TILE_SIZE * mScale);
         int m = screenHeight / MapConfig.TILE_SIZE + 2;
         int n = screenWidth / MapConfig.TILE_SIZE + 2;
         int num = mapWidth / mTileSize;
-        int MAXNUM = m * n;
+        int MAX_NUM = MapConfig.getMaxTileNum(deepZoom);
 		
 		/*
 		 * 画布上第一个切片的坐标
@@ -179,11 +184,11 @@ public class MapView extends View {
         int tile_num = 0;
 
         Bitmap baseBitmap = tileCache.getMapTile(0, mScale);
-        for(int i = 0; i <= m; i++){
-            drawMapTile(canvas, baseBitmap, mPaint, 0, i*mTileSize, mTileSize);
+        for(int i = 0; i < m; i++){
+            drawMapTile(canvas, baseBitmap, mPaint, 0, i * mTileSize, mTileSize);
         }
-        for(int i = 0; i <= n; i++){
-            drawMapTile(canvas, baseBitmap, mPaint, i*mTileSize, 0, mTileSize);
+        for(int i = 0; i < n; i++){
+            drawMapTile(canvas, baseBitmap, mPaint, i * mTileSize, 0, mTileSize);
         }
 
         //拼接地图
@@ -191,18 +196,20 @@ public class MapView extends View {
             for (int j = 0; j < n; j++) {
                 int screenX = canvasX + (j * mTileSize);
                 int screenY = canvasY + (i * mTileSize);
-                if (screenX - mapOffsetX > mapWidth || screenY - mapOffsetY > mapHeight
-                        || screenX - mapOffsetX <= 0 || screenY - mapOffsetY <= 0) {
+                if (screenX - mapOffsetX > mapWidth
+                        || screenY - mapOffsetY > mapHeight
+                        || screenX - mapOffsetX <= 0
+                        || screenY - mapOffsetY <= 0) {
                     tile_num = 0;
                 } else {
-                    tile_num = (i + (-mapOffsetY) / mTileSize) * num + (j + 1 + (-mapOffsetX) / mTileSize);
+                    tile_num = (i + (-mapOffsetY) / mTileSize) * num;
+                    tile_num = tile_num + (j + 1 + (-mapOffsetX) / mTileSize);
                 }
-                if (tile_num > MAXNUM || tile_num < 1) {
+                if (tile_num > MAX_NUM || tile_num < 1) {
                     tile_num = 0;
                 }
                 bitmap = tileCache.getMapTile(tile_num, mScale);
-                drawMapTile(canvas, bitmap, mPaint,
-                        screenX, screenY, mTileSize);
+                drawMapTile(canvas, bitmap, mPaint, screenX, screenY, mTileSize);
             }
         }
         drawOverlayer(canvas);
@@ -306,10 +313,10 @@ public class MapView extends View {
         if (mapHeight < MapConfig.INIT_MAP_HEIGHT) {
             mapHeight = MapConfig.INIT_MAP_HEIGHT;
         }
-        if (mapHeight > MapConfig.INIT_MAP_HEIGHT * 3) {
-            mapHeight = MapConfig.INIT_MAP_HEIGHT * 3;
+        if (mapHeight > MapConfig.INIT_MAP_HEIGHT * 6) {
+            mapHeight = MapConfig.INIT_MAP_HEIGHT * 6;
         }
-        mapWidth = mapHeight;
+        mapWidth = mapHeight * 2;
 
         int x = (int) (((1 - factor) / 2) * screenWidth + factor * mapOffsetX);
         int y = (int) (((1 - factor) / 2) * screenHeight + factor * mapOffsetY);
@@ -317,7 +324,7 @@ public class MapView extends View {
         int dy = y - mapOffsetY;
         //setMapPosition(x, y);
 
-        int mDeepZoom = MapConfig.getDeepZoomByMapSize(mapHeight);
+        int mDeepZoom = MapConfig.getDeepZoomByMapHeight(mapHeight);
         if (mDeepZoom > deepZoom) {
             //放大
             deepZoom++;
@@ -341,7 +348,6 @@ public class MapView extends View {
         Log.i("mScale-->", "" + mScale);
         moveMap(dx, dy);
         postInvalidate();
-
     }
 
     /**
