@@ -316,7 +316,7 @@ public class MapView extends View {
         if (mapHeight > MapConfig.INIT_MAP_HEIGHT * 6) {
             mapHeight = MapConfig.INIT_MAP_HEIGHT * 6;
         }
-        mapWidth = mapHeight * 2;
+        mapWidth = MapConfig.getMapWidthByHeight(mapHeight);
 
         int x = (int) (((1 - factor) / 2) * screenWidth + factor * mapOffsetX);
         int y = (int) (((1 - factor) / 2) * screenHeight + factor * mapOffsetY);
@@ -366,7 +366,7 @@ public class MapView extends View {
      */
     public void zoomIn() {
         Log.i("zoom_in", "###############");
-        float factor = 1.3f;
+        float factor = 1.15f;
         scaleMap(factor);
     }
 
@@ -385,7 +385,7 @@ public class MapView extends View {
 //        	//setCenter(point);
 //        	postInvalidate();
 //    	}
-        float factor = 0.7f;
+        float factor = 0.9f;
         scaleMap(factor);
     }
 

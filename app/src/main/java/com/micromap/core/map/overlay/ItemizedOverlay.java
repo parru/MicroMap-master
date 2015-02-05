@@ -10,8 +10,6 @@ import android.util.Log;
 import com.micromap.MicroMapApplication;
 import com.micromap.core.map.GeoPoint;
 import com.micromap.core.map.MapView;
-import com.micromap.core.map.model.ItemMark;
-import com.micromap.core.utils.OverlayItemUtls;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,8 +111,8 @@ public class ItemizedOverlay extends Overlay {
                         int mapOffsetX = getMapView().getMapOffsetX();
                         int mapOffsetY = getMapView().getMapOffsetY();
 
-                        int mapHeight = MicroMapApplication.MapConfig.getMapHeight(deepZoom);
-                        int mapWidth = MicroMapApplication.MapConfig.getMapWidth(deepZoom);
+                        int mapHeight = getMapView().getMapHeight();
+                        int mapWidth = getMapView().getMapWidth();
                         
                         int mapX = point.getMapX(mapWidth);
                         int mapY = point.getMapY(mapHeight);
