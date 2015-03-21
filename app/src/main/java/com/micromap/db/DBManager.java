@@ -3,8 +3,6 @@ package com.micromap.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
-import android.util.Log;
 
 import com.micromap.R;
 
