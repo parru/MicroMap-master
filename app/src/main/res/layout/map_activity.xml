@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frame"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <com.micromap.core.map.MapView
+        android:id="@+id/mapview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:longClickable="true"
+        />
+
+    <LinearLayout
+        android:id="@+id/mapview_top"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="5dp"
+        android:gravity="center"
+        android:background="@drawable/map_bg"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/base_pressed_background"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/college"
+                android:scaleType="fitXY"/>
+            <TextView
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:text="建筑查询"
+                android:textSize="18sp"
+                android:textColor="@color/common_link"
+                />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/path_finding_button"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            android:gravity="center"
+            android:contentDescription="@string/search"
+            android:src="@drawable/pathfind"
+            />
+
+        <ImageButton
+            android:id="@+id/myplace_button"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:scaleType="fitXY"
+            android:gravity="center"
+            android:contentDescription="@string/search"
+            android:src="@drawable/myplace"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <ZoomControls
+            android:id="@+id/zoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+</RelativeLayout>

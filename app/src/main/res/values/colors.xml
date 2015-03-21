@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="title_blue">#44eedd</color>
+    <color name="common_gray">#ff999999</color>
+    <color name="common_link">#0800FF</color>
+    <color name="common_title">#CFFF00</color>
+    <color name="common_transparent">#00000000</color>
+</resources>
