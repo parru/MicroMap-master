@@ -92,5 +92,4 @@ public class BuildingDetailActivity extends Activity implements OnClickListener 
             startActivity(intent);
         }
     }
-
 }

@@ -60,8 +60,7 @@ public class DrawTileCache {
     		Matrix matrix = new Matrix();
         	matrix.postScale(scale, scale);
     		int size = MapConfig.TILE_SIZE;
-    		bitmap = Bitmap.createBitmap(mBitmap, 0, 0, size, size,
-    				matrix, true);
+    		bitmap = Bitmap.createBitmap(mBitmap, 0, 0, size, size, matrix, true);
     		insertMapTile(tile_num, bitmap);
     	}
     	return bitmap;

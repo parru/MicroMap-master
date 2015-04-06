@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @SuppressLint("UseSparseArrays")
 public class CategoryDao extends TBManager {
     public static final String TABLE_NAME = "category";
@@ -54,7 +53,7 @@ public class CategoryDao extends TBManager {
             database.execSQL(sql);
         }
     }
-    
+
     public void insertElem(Category category){
         if(category == null){
             return;
@@ -78,9 +77,9 @@ public class CategoryDao extends TBManager {
         }else{
             Log.i(FILE_NAME,"file is null");
         }
-        
+
     }
-    
+
     /**
      * 根据类型得到部门的分类的图标
      *
@@ -104,7 +103,7 @@ public class CategoryDao extends TBManager {
         item_images.put(11, R.drawable.bookshop);
         item_images.put(12, R.drawable.market);
         item_images.put(13,R.drawable.scence);
-        
+
         if(type > 0 && type < 14){
             bitmap_id = (Integer) item_images.get(type);
         }
@@ -125,49 +124,49 @@ public class CategoryDao extends TBManager {
             // 得到文件流，并设置编码方式
             XmlPullParser xmlParser = Xml.newPullParser();
             xmlParser.setInput(in, "UTF-8");
-            
+
             //这里有开始文档，结束文档，开始标签，结束标签，文本等等事件。
             int evtType = xmlParser.getEventType();
             // 一直循环，直到文档结束
             Category category = null;
             while (evtType != XmlPullParser.END_DOCUMENT) {
                 switch (evtType) {
-                
-                case XmlPullParser.START_TAG:  //标签开始
-                    
-                    String tag = xmlParser.getName();
-                    if(tag.equals(TABLE_NAME)){
-                        // 如果是user标签开始，则说明需要实例化对象了
-                        category = new Category();
-                    }
-                    
-                    if(tag.equalsIgnoreCase(NAME)){
-                        // 取出User标签中的一些属性值
-                        String name = xmlParser.nextText();
-                        category.setName(name);
-                    }
-                    
-                    if(tag.equalsIgnoreCase(TYPE)){
-                        String type = xmlParser.nextText();
-                        category.setType(Integer.parseInt(type));
-                    }
-                    
-                    if(tag.equalsIgnoreCase(MARK)){
-                        String mark = xmlParser.nextText();
-                        category.setMark(mark);
-                    }                    
-                    break;
-                    
-                case XmlPullParser.END_TAG:
-                    // 如果遇到river标签结束，则把river对象添加进集合中
-                    if (xmlParser.getName().equals(TABLE_NAME)) {
-                        if(category != null){
-                            insertElem(category);
+
+                    case XmlPullParser.START_TAG:  //标签开始
+
+                        String tag = xmlParser.getName();
+                        if(tag.equals(TABLE_NAME)){
+                            // 如果是user标签开始，则说明需要实例化对象了
+                            category = new Category();
                         }
-                    }
-                    break;                  
-                default:
-                    break;
+
+                        if(tag.equalsIgnoreCase(NAME)){
+                            // 取出User标签中的一些属性值
+                            String name = xmlParser.nextText();
+                            category.setName(name);
+                        }
+
+                        if(tag.equalsIgnoreCase(TYPE)){
+                            String type = xmlParser.nextText();
+                            category.setType(Integer.parseInt(type));
+                        }
+
+                        if(tag.equalsIgnoreCase(MARK)){
+                            String mark = xmlParser.nextText();
+                            category.setMark(mark);
+                        }
+                        break;
+
+                    case XmlPullParser.END_TAG:
+                        // 如果遇到river标签结束，则把river对象添加进集合中
+                        if (xmlParser.getName().equals(TABLE_NAME)) {
+                            if(category != null){
+                                insertElem(category);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
                 }
                 evtType = xmlParser.next();
             }

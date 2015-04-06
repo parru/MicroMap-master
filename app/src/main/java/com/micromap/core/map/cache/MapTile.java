@@ -8,31 +8,37 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import java.io.InputStream;
 
 public class MapTile {
     private Context context;
-    public static final int TILE_SIZE = 75;
-    public static final int DEFAULT_MAP_SIZE = 750;
     
     public MapTile(Context context){
     	this.context = context;
     }
+
     public Bitmap getBitmapById(int zoom_level,int id){
     	String pathString = "zoom_"+Integer.toString(zoom_level) + "/";
     	String idString = null;
     	if(id < 10){
-    		idString = "0"+Integer.toString(id);
-    	}
-    	else{
+    		idString = "0" + Integer.toString(id);
+    	} else {
     		idString = Integer.toString(id);
     	}
-    	pathString += "cucmap_" + idString + ".png";
-    	Bitmap bitmap = getImageFromeAssets(pathString);
+    	pathString += "zoom_" + idString + ".png";
+        Bitmap bitmap = getImageFromAssets(pathString);
     	return bitmap;
     }
-    public Bitmap getImageFromeAssets(String path){
+
+    /**
+     * 读取Assert中的文件
+     *
+     * @param path 文件的路径
+     * @return
+     */
+    private Bitmap getImageFromAssets(String path){
     	Bitmap image = null;
     	try{
     		AssetManager am = context.getAssets();
@@ -41,6 +47,7 @@ public class MapTile {
     		is.close();
     	}catch (Exception e) {
 			// TODO: handle exception
+            Log.e("MapTile -->", path);
 		}
     	return image;
     }
